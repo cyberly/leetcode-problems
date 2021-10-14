@@ -32,19 +32,13 @@ func preorderTraversal_iterative(root *TreeNode) []int {
 }
 
 func preorderTraversal(root *TreeNode) []int {
-	var preorder func(*TreeNode)
-	ans := []int{}
-
-	preorder = func(root *TreeNode) {
-		if root == nil {
-			return
-		}
-		ans = append(ans, root.Val)
-		preorder(root.Left)
-		preorder(root.Right)
-
+	if root == nil {
+		return []int{}
 	}
-	preorder(root)
+	ans := []int{}
+	ans = append(ans, root.Val)
+	ans = append(ans, preorderTraversal(root.Left)...)
+	ans = append(ans, preorderTraversal(root.Right)...)
 	return ans
 }
 
