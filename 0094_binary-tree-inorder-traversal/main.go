@@ -11,6 +11,25 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func inorderTraversal_iterative(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	stack := []*TreeNode{}
+	ans := []int{}
+	for root != nil || len(stack) > 0 {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		ans = append(ans, root.Val)
+		root = root.Right
+	}
+	return ans
+}
+
 func inorderTraversal(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
