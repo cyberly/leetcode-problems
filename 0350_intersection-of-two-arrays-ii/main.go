@@ -8,21 +8,7 @@ import (
 	"sort"
 )
 
-func intersect_firstpass(nums1 []int, nums2 []int) []int {
-	match := make([]int, 0)
-	for i := 0; i < len(nums1); i++ {
-		for j := 0; j < len(nums2); j++ {
-			if nums1[i] == nums2[j] {
-				match = append(match, nums2[j])
-				nums2[j] = 1001
-				break
-			}
-		}
-	}
-	return match
-}
-
-func intersect(nums1 []int, nums2 []int) []int {
+func intersect_sort(nums1 []int, nums2 []int) []int {
 	sort.Ints(nums1)
 	sort.Ints(nums2)
 	i := 0
@@ -45,7 +31,24 @@ func intersect(nums1 []int, nums2 []int) []int {
 	return match
 }
 
+func intersect(nums1 []int, nums2 []int) []int {
+	if len(nums2) < len(nums1) {
+		nums1, nums2 = nums2, nums1
+	}
+	countMap := make(map[int]int)
+	ans := []int{}
+	for i := 0; i < len(nums1); i++ {
+		countMap[nums1[i]] += 1
+	}
+	for j := 0; j < len(nums2); j++ {
+		if c, ok := countMap[nums2[j]]; ok && c > 0 {
+			ans = append(ans, nums2[j])
+			countMap[nums2[j]] -= 1
+		}
+	}
+	return ans
+}
+
 func main() {
-	//fmt.Println(intersect([]int{4, 9, 5}, []int{9, 4, 9, 8, 4}))
 	fmt.Println(intersect([]int{1, 2, 2, 1}, []int{2, 2}))
 }
